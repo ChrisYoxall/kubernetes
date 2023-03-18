@@ -18,3 +18,6 @@ export AZ_SUBNET_RANGE="10.200.0.0/16"
 
 # managed identity name
 export AZ_AKS_IDENTITY_NAME="${AZ_AKS_CLUSTER_NAME}-identity"
+
+# kubernetes
+export AZ_VERSION="1.25.5"

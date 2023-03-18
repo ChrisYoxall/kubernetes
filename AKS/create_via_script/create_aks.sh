@@ -36,7 +36,7 @@ az network vnet subnet create \
 # STEP 3: create managed identity
 ############################################
 
-echo "Createing identity"
+echo "Creating identity"
 
 az identity create \
   --name $AZ_AKS_IDENTITY_NAME \
@@ -79,7 +79,7 @@ echo "Creating AKS cluster"
 az aks create \
     --resource-group $AZ_RESOURCE_GROUP \
     --name $AZ_AKS_CLUSTER_NAME \
-    --kubernetes-version 1.23.5 \
+    --kubernetes-version $AZ_VERSION \
     --generate-ssh-keys \
     --node-vm-size standard_b4ms \
     --enable-managed-identity \
