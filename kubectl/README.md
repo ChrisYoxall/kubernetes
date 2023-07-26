@@ -1,50 +1,50 @@
 
-Intersting commands to learn!
+## Useful Commands
 
 
-General Stuff:
+### 1.0 Kubectl config
 
-    Set variable for editor to use for kubectl edit: KUBE_EDITOR=vim 
+Set variable for editor to use for kubectl edit: KUBE_EDITOR=vim 
 
-    Auto-complete: 
-    
-        * Install package bash-completion
-        * Do: source <(kubectl completion bash)
-        * To always enable: echo "source <(kubectl completion bash)" >> $HOME/.bashrc
+Auto-complete: 
 
-
-Commands: 
-
-    - Kubenetes documentation for imperative & declarative management is at https://kubernetes.io/docs/tasks/manage-kubernetes-objects/
-
-    - KodeKloud lab on imperative commands at https://kodekloud.com/topic/imperative-commands/
-
-    - Handy way to get options for a Kubernetes resource is using explain.  For example: kubectl explain pod --recursive | less
+- Install package bash-completion
+- Do: source <(kubectl completion bash)
+- To always enable: echo "source <(kubectl completion bash)" >> $HOME/.bashrc
 
 
-    - Context:
+### 2.0 Commands
 
-        List contexts: kubectl config get-contexts
+Kubenetes documentation for imperative & declarative management is at https://kubernetes.io/docs/tasks/manage-kubernetes-objects/
 
-        Select a context to use: kubectl config use-context my_context_name
+KodeKloud lab on imperative commands at https://kodekloud.com/topic/imperative-commands/
 
-        Set context default namespace: kubectl config set-context --current --namespace namespace_to_use
-
-
-    - Get information:
-
-        Get all resources: kubectl get all -n my-namespace
-
-        Get all of a specific resource (deamonset here) across all namespaces: kubectl get ds -A
-
-        Search based on label (or -l instead of --selector): kubectl get po --selector app=db    Group multiple selectors using commas.
-
-        Get status, history etc on rollouts: kubectl rollout status daemonset/foo
+Handy way to get fields for a Kubernetes resource is using explain.  For example: kubectl explain pod --recursive | less
 
 
+#### 2.1 Context
+
+- List contexts: kubectl config get-contexts
+
+- Select a context to use: kubectl config use-context my_context_name
+
+- Set context default namespace: kubectl config set-context --current --namespace namespace_to_use
 
 
-    - Get information via jsonpath:
+#### 2.2 Get information
+
+- Get all resources: kubectl get all -n my-namespace
+
+- Get all of a specific resource (deamonset here) across all namespaces: kubectl get ds -A
+
+- Search based on label (or -l instead of --selector): kubectl get po --selector app=db    Group multiple selectors using commas.
+
+- Get status, history etc on rollouts: kubectl rollout status daemonset/foo
+
+
+
+
+#### 2.3 Get information via jsonpath
 
         Note quotes around statement, and different quotes if they are used inside outer ones.
 
@@ -53,8 +53,7 @@ Commands:
         Get status of certain pod: kubectl get pods -o jsonpath='{.items[?(@.metadata.name=="nginx")].status.phase}'  
 
 
-    
-    - Run pod:
+#### 2.4 Run pod
 
         Run pod: kubectl run webserver --image=nginx
 
@@ -70,7 +69,7 @@ Commands:
 
 
 
-    - Get yaml:
+#### 2.5 Get yaml
     
         Extract yaml (pod example given here): kubectl get pod <pod-name> -o yaml > pod-definition.yaml
 
@@ -78,7 +77,7 @@ Commands:
 
 
 
-    - Create / Update resources:
+#### 2.6 Create / Update resources
 
         Create deployment: kubectl create deploy webserver --image=nginx
 
@@ -94,11 +93,29 @@ Commands:
 
 
 
-    - Check Access via 'auth':
+#### 2.7 Check Access via 'auth'
 
         Check to see if you can get pods: kubectl auth can-i get pods
         
         Check if certain user can get pods: kubectl auth can-i get pods --as dev-user
+
+
+#### 2.8 Ephemeral containers
+
+Useful for troubleshooting as the target container may not have any toubleshooting tools or even a shell. To create:
+
+- kubectl -n twr-sumo -it debug collection-sumologic-otelcol-logs-collector-zwk48 --image=busybox:1.28 --target=otelcol
+
+A downside is ephemeral containers can't be removed from a pod. Can create a copy (this failed when I tried it - maybe as its a deamonset pod)
+
+- kubectl -n twr-sumo -it debug collection-sumologic-otelcol-logs-collector-zwk48 --image=busybox:1.28 --share-processes --copy-to=chris-otelcol-logs-collector-zwk48
+
+That last command makes use of sharing process namespace. Refer https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/
+
+The /proc filesystem can be useful also when in empemeral containers. Get process of job you are interested in and look in /proc/# to see details of that
+process including things like the /etc folder as seen by the process which would be at /proc/#/root/etc
+
+
 
 
 
