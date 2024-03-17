@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: create-user-dirs
+spec:
+  containers:
+  - name: create-users
+    image: registry.k8s.io/busybox
+    command: ["/scripts/create-dir.sh"]
+    volumeMounts:
+    - name: script
+      mountPath: "/scripts"
+  volumes:
+    - name: script
+      configMap:
+        name: users-cm
+        defaultMode: 0500
+        items:
+          - key: create-dir.sh
+            path: create-dir.sh
+          - key: users.ini
+            path: users.ini

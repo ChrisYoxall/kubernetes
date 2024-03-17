@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: users-cm
+data:
+  users.ini: |
+    user1
+    user2
+    user3
+    user5
+  create-dir.sh: |
+    #!/bin/sh
+    set -ex
+    cat /scripts/users.ini | while read line
+    do
+       mkdir -pv /nfs/folder/$line
+    done
