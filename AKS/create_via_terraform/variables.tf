@@ -12,6 +12,6 @@ variable "aks_name" {
 
 variable "vm_size" {
   description = "The size of the VMs"
-  default     = "standard_D2ads_v5" // standard_b4ms
+  default     = "standard_d4ads_v5" // standard_b4ms_v2
   type        = string
 }
