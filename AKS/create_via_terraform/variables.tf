@@ -6,7 +6,7 @@ variable "location" {
 
 variable "aks_name" {
   description = "The name of the AKS cluster"
-  default     = "aks-testing"
+  default     = "aks-test"
   type        = string
 }
 
